@@ -130,10 +130,10 @@ while True:
                     with open('Excuses.txt', 'r') as f:
                         dalist = f.read().splitlines()
                     print("Dropping an excuse on: " + str(rAirForceComments.author)
-                          + ". Comment ID: " + rAirForceComments.id)
+                          + ". Comment ID: " + rAirForceComments.id) + " with " + len(dalist) + " excuses loaded."
                     logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
                                  "Dropping an excuse on: " + str(rAirForceComments.author) + ". Comment ID: " +
-                                 rAirForceComments.id + "\n")
+                                 rAirForceComments.id + " with " + len(dalist) + " excuses loaded.\n")
                     ExcuseReply = '^^Here\'s ^^your ^^generic ^^Air ^^Force ^^excuse:\n\n'\
                                   + (dalist[random.randint(0, len(dalist) - 1)])
 
