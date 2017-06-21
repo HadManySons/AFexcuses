@@ -87,7 +87,7 @@ rAirForce = reddit.subreddit(subreddit)
 logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
              "Starting processing loop for subreddit: " + subreddit)
 
-triggerWords = ['AFExcuses!', 'AFExcuse!', 'AFexcuses!', 'AFexcuse!', 'afexcuses!', 'afexcuse!']
+triggerWords = ['afexcuses!', 'afexcuse!']
 
 while True:
     try:
@@ -121,8 +121,11 @@ while True:
                 print("Author was the bot, skipping...")
                 continue
             else:
+                formattedComment = rAirForceComments.body
+                formattedComment = formattedComment.lower()
+
                 # A little extra something
-                if any(matches in rAirForceComments.body for matches in triggerWords):
+                if any(matches in formattedComment.body for matches in triggerWords):
                     dalist = []
                     with open('Excuses.txt', 'r') as f:
                         dalist = f.read().splitlines()
