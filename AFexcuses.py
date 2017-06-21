@@ -125,7 +125,7 @@ while True:
                 formattedComment = formattedComment.lower()
 
                 # A little extra something
-                if any(matches in formattedComment.body for matches in triggerWords):
+                if any(matches in formattedComment for matches in triggerWords):
                     dalist = []
                     with open('Excuses.txt', 'r') as f:
                         dalist = f.read().splitlines()
