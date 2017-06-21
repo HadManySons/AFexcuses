@@ -10,7 +10,7 @@ import sys
 
 # Initialize a logging object and have some examples below from the Python
 # Doc page
-logging.basicConfig(filename='AFIexcuses.log', level=logging.INFO)
+logging.basicConfig(filename='AFexcuses.log', level=logging.INFO)
 
 #Get the PID of this process
 pid = str(os.getpid())
