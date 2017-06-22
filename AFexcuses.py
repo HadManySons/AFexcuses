@@ -134,7 +134,8 @@ while True:
                     logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
                                  "Dropping an excuse on: " + str(rAirForceComments.author) + ". Comment ID: " +
                                  rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.\n")
-                    ExcuseReply = '^^Here\'s ^^your ^^generic ^^Air ^^Force ^^excuse:\n\n'\
+                    ExcuseReply = '^^You\'ve ^^spun ^^the ^^wheel ^^of ^^Air ^^Force ^^excuses, ' + \
+                                   '^^here\'s ^^your ^^prize:\n\n' \
                                   + (dalist[random.randint(0, len(dalist) - 1)])
 
                     rAirForceComments.reply(ExcuseReply)
