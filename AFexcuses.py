@@ -1,7 +1,6 @@
 import praw
 import sqlite3
 from pathlib import Path
-import re
 import random
 import logging
 import time
