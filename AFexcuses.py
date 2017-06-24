@@ -155,9 +155,9 @@ while True:
         exit(0)
     
     except Exception as err:
-        print("Exception: " + str(err))
+        print("Exception: " + str(err.with_traceback()))
         logging.error(time.strftime("%Y/%m/%d %H:%M:%S ") 
-                                + "Unhandled exception: " + str(err))
+                                + "Unhandled exception: " + str(err.with_traceback()))
 
     finally:
         os.unlink(pidfile)
