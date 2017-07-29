@@ -135,7 +135,9 @@ while True:
                                  rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.\n")
                     ExcuseReply = '^^You\'ve ^^spun ^^the ^^wheel ^^of ^^Air ^^Force ^^excuses, ' + \
                                    '^^here\'s ^^your ^^prize:\n\n' \
-                                  + (dalist[random.randint(0, len(dalist) - 1)])
+                                  + (dalist[random.randint(0, len(dalist) - 1)]) \
+                                  + "\n\n\n\n ^^[Source](https://github.com/HadManySons/AFexcuses)" \
+                                  + " ^^| ^^[Subreddit](https://www.reddit.com/r/AFExcuses)"
 
                     rAirForceComments.reply(ExcuseReply)
                     dbCommentRecord.execute(
