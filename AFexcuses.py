@@ -79,7 +79,7 @@ else:  # if it doesn't, create it
 
 # subreddit instance of /r/AirForce. 'AFexcuses' must be changed to 'airforce' for a production version of the
 # script.
-#subreddit = 'airforce+airnationalguard'
+#subreddit = 'airforce+airnationalguard+afrotc'
 subreddit = 'AFexcuses'
 rAirForce = reddit.subreddit(subreddit)
 
