@@ -22,7 +22,11 @@ class LoggerObject:
 class CheckPID:
     def __init__(self, pid_text):
         self.pid = str(os.getpid())
+        print(self.pid)
         self.pid_text = pid_text
+       # self.control_exit()
+       # not sure how you are using this,
+
 
     def control_exit(self):
         if self.is_running():
