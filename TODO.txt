@@ -1,1 +1,2 @@
 Scan for users flair and attempt to select a relevant excuse
+Scan for the parent of "bot request for more relevant details"
