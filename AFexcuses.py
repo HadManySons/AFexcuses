@@ -6,6 +6,7 @@ import logging
 import time
 import os
 import sys
+from BotCreds import credsPassword, credsUserName, credsClientSecret, credsClientID, credsUserAgent
 
 # Initialize a logging object and have some examples below from the Python
 # Doc page
@@ -25,23 +26,6 @@ open(pidfile, 'w').write(pid)
 
 logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") + "Starting script")
 
-# reddit user object
-try:
-    creds = open('ExcusesCreds.txt', 'r')
-    print("Opened creds file")
-    logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") + "Opened creds file")
-except OSError:
-    print("Couldn't open ExcusesCreds.txt")
-    logging.error(time.strftime("%Y/%m/%d %H:%M:%S ") + "Couldn't open ExcusesCreds.txt")
-    exit()
-
-credsUserAgent = creds.readline()
-credsClientID = creds.readline()
-credsClientSecret = creds.readline()
-credsUsername = creds.readline()
-credsPassword = creds.readline()
-creds.close()
-
 #Try to login or sleep/wait until logged in, or exit if user/pass wrong
 NotLoggedIn = True
 while NotLoggedIn:
@@ -50,7 +34,7 @@ while NotLoggedIn:
             user_agent=credsUserAgent.strip(),
             client_id=credsClientID.strip(),
             client_secret=credsClientSecret.strip(),
-            username=credsUsername.strip(),
+            username=credsUserName.strip(),
             password=credsPassword.strip())
         print("Logged in")
         NotLoggedIn = False
