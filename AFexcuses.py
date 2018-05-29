@@ -77,6 +77,12 @@ while True:
         # stream all comments from /r/AirForce
         for rAirForceComments in rAirForce.stream.comments():
             globalCount += 1
+            
+            #If the post is older than about 5 months, ignore it and move on.
+            if (time.time() - rAirForceComments.created) > 13148715:
+                print("Post too old, continuing")
+                continue
+
             print("\nComments processed since start of script: " + str(globalCount))
             print("Processing comment: " + rAirForceComments.id)
 
