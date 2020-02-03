@@ -3,6 +3,7 @@ import logging
 import time
 import os
 import sys
+import random
 from BotCreds import credsUserAgent, credsClientID, credsClientSecret, credsPassword, credsUserName
 
 # Initialize a logging object and have some examples below from the Python
@@ -48,6 +49,7 @@ globalCount = 0
 
 logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
              "Starting processing loop for comments")
+triggerWords = ['afexcuses!', 'afexcuse!']
 
 while True:
     try:
@@ -58,28 +60,47 @@ while True:
             #Marks the comment as read
             rAirForceComments.mark_read()
 
-            #print(unread_messages)
+            """#print(unread_messages)
             print("\nComments processed since start of script: " + str(globalCount))
             print("Processing comment: " + rAirForceComments.id)
             print("Submission: {}".format(str(rAirForceComments.submission)))
             logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
-                         "Processing comment: " + rAirForceComments.id)
+                         "Processing comment: " + rAirForceComments.id)"""
 
             #If, for some odd reason, the bot is the author, ignore it.
             if rAirForceComments.author == "AFexcuses":
                 print("Author was the bot, skipping...")
                 continue
+
+
             else:
-                #Get the parent comment(the bot) and grandparent(comment originally replied to)
-                parent = rAirForceComments.parent()
-                grandparent = parent.parent()
 
                 formattedComment = rAirForceComments.body
                 formattedComment = formattedComment.lower()
                 formattedComment = formattedComment.replace(' ', '')
 
+                # A little extra something
+                if any(matches in formattedComment for matches in triggerWords):
+                    dalist = []
+                    with open('Excuses.txt', 'r') as f:
+                        dalist = f.read().splitlines()
+                    print("Dropping an excuse on: " + str(rAirForceComments.author)
+                          + ". Comment ID: " + rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.")
+                    logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
+                                 "Dropping an excuse on: " + str(rAirForceComments.author) + ". Comment ID: " +
+                                 rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.\n")
+                    ExcuseReply = '^^You\'ve ^^spun ^^the ^^wheel ^^of ^^Air ^^Force ^^excuses, ' + \
+                                  '^^here\'s ^^your ^^prize:\n\n' \
+                                  + (dalist[random.randint(0, len(dalist) - 1)])
+
+                    rAirForceComments.reply(ExcuseReply)
+                    continue
 
                 if "deletethis!" in formattedComment:
+
+                        # Get the parent comment(the bot) and grandparent(comment originally replied to)
+                        parent = rAirForceComments.parent()
+                        grandparent = parent.parent()
                         #Must be the original comment author
                         if rAirForceComments.author == grandparent.author:
                             print("Deleting comment per redditors request")
