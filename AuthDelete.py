@@ -95,7 +95,10 @@ while True:
 
                     rAirForceComments.reply(ExcuseReply)
                     continue
-
+                #Shutdown bot if mod commands it
+                if "shutdown!" in formattedComment and rAirForceComments.author == ("HadManySons" or "SilentD"):
+                    os.system("cat /home/redditbots/bots/AFILinkerBot/AFILinkerBot.pid | xargs kill -9")
+        
                 if "deletethis!" in formattedComment:
 
                         # Get the parent comment(the bot) and grandparent(comment originally replied to)
