@@ -59,14 +59,12 @@ while True:
 
             #Marks the comment as read
             rAirForceComments.mark_read()
-
-            """#print(unread_messages)
-            print("\nComments processed since start of script: " + str(globalCount))
-            print("Processing comment: " + rAirForceComments.id)
-            print("Submission: {}".format(str(rAirForceComments.submission)))
-            logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
-                         "Processing comment: " + rAirForceComments.id)"""
-
+            
+            #Check if comment or message
+            if isinstance(rAirForceComments, praw.models.reddit.comment.Comment):
+                print("Is comment, skipping")
+                continue
+                
             #If, for some odd reason, the bot is the author, ignore it.
             if rAirForceComments.author == "AFexcuses":
                 print("Author was the bot, skipping...")
