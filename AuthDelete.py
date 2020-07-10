@@ -50,6 +50,7 @@ globalCount = 0
 logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
              "Starting processing loop for comments")
 triggerWords = ['afexcuses!', 'afexcuse!']
+mods = ['silentd', 'hadmanysons']
 
 while True:
     try:
@@ -76,7 +77,14 @@ while True:
                 formattedComment = rAirForceComments.body
                 formattedComment = formattedComment.lower()
                 formattedComment = formattedComment.replace(' ', '')
-
+                
+                #Shutdown bot if mod commands it
+                if "shutdown!" in formattedComment:
+                    if str(rAirForceComments.author).lower() in mods:
+                        os.system("cat /home/redditbots/bots/AFILinkerBot/AFILinkerBot.pid | xargs kill -9")
+                    else:
+                        print("Not a mod, go fuck yourself")
+                        
                 # A little extra something
                 if any(matches in formattedComment for matches in triggerWords):
                     dalist = []
