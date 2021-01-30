@@ -14,7 +14,7 @@ excuseFile = os.environ.get("AFE_EXCUSEFILE")
 
 # Initialize a logging object and have some examples below from the Python
 # Doc page
-logging.basicConfig(filename='../AFexcuses.log', level=logging.INFO)
+logging.basicConfig(filename='AFexcuses.log', level=logging.INFO)
 logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") + "Starting script")
 
 #Try to login or sleep/wait until logged in, or exit if user/pass wrong
