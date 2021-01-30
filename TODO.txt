@@ -1,1 +1,1 @@
-Scan for users flair and attempt to select a relevant excuse
+Fix the shutdown portion of AuthDelete to account for being containerized

@@ -3,8 +3,12 @@ import logging
 import time
 import os
 import sys
-import random
-from BotCreds import credsUserAgent, credsClientID, credsClientSecret, credsPassword, credsUserName
+
+credsUserAgent = os.environ.get("AFE_USERAGENT")
+credsClientID = os.environ.get("AFE_ID")
+credsClientSecret = os.environ.get("AFE_SECRET")
+credsPassword = os.environ.get("AFE_PASSWORD")
+credsUserName = os.environ.get("AFE_USERNAME")
 
 # Initialize a logging object and have some examples below from the Python
 # Doc page
@@ -84,23 +88,7 @@ while True:
                         os.system("cat /home/redditbots/bots/AFILinkerBot/AFILinkerBot.pid | xargs kill -9")
                     else:
                         print("Not a mod, go fuck yourself")
-                        
-                # A little extra something
-                if any(matches in formattedComment for matches in triggerWords):
-                    dalist = []
-                    with open('Excuses.txt', 'r') as f:
-                        dalist = f.read().splitlines()
-                    print("Dropping an excuse on: " + str(rAirForceComments.author)
-                          + ". Comment ID: " + rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.")
-                    logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
-                                 "Dropping an excuse on: " + str(rAirForceComments.author) + ". Comment ID: " +
-                                 rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.\n")
-                    ExcuseReply = '^^You\'ve ^^spun ^^the ^^wheel ^^of ^^Air ^^Force ^^excuses, ' + \
-                                  '^^here\'s ^^your ^^prize:\n\n' \
-                                  + (dalist[random.randint(0, len(dalist) - 1)])
 
-                    rAirForceComments.reply(ExcuseReply)
-                    continue
                 #Shutdown bot if mod commands it
                 if "shutdown!" in formattedComment and rAirForceComments.author == ("HadManySons" or "SilentD"):
                     os.system("cat /home/redditbots/bots/AFILinkerBot/AFILinkerBot.pid | xargs kill -9")
