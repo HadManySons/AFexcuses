@@ -2,7 +2,6 @@ import praw
 import logging
 import time
 import os
-import sys
 
 credsUserAgent = os.environ.get("AFE_USERAGENT")
 credsClientID = os.environ.get("AFE_ID")
