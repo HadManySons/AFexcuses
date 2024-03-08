@@ -1,6 +1,7 @@
 import praw
 import random
 import logging
+from logging.handlers import RotatingFileHandler
 import time
 import os
 
@@ -14,8 +15,24 @@ excuseFile = os.environ.get("AFE_EXCUSEFILE")
 
 # Initialize a logging object and have some examples below from the Python
 # Doc page
-logging.basicConfig(filename='AFexcuses.log', level=logging.INFO)
-logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") + "Starting script")
+
+LOG_TIME_FORMAT = "%Y/%m/%d %H:%M:%S "
+
+logger = logging.getLogger("AFexcuses Rotating Log")
+logger.setLevel(logging.INFO)
+    
+# add a rotating handler
+handler = RotatingFileHandler("AFexcuses.log", maxBytes=2048000, backupCount=25)
+logger.addHandler(handler)
+
+def print_and_log(text, error=False):
+    print(text)
+    if error:
+        logger.error(time.strftime(LOG_TIME_FORMAT) + text)
+    else:
+        logger.info(time.strftime(LOG_TIME_FORMAT) + text)
+
+print_and_log("Starting script")
 
 #Try to login or sleep/wait until logged in, or exit if user/pass wrong
 NotLoggedIn = True
