@@ -1,6 +1,7 @@
 import praw
 import random
 import logging
+from logging.handlers import RotatingFileHandler
 import time
 import os
 
@@ -14,8 +15,24 @@ excuseFile = os.environ.get("AFE_EXCUSEFILE")
 
 # Initialize a logging object and have some examples below from the Python
 # Doc page
-logging.basicConfig(filename='AFexcuses.log', level=logging.INFO)
-logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") + "Starting script")
+
+LOG_TIME_FORMAT = "%Y/%m/%d %H:%M:%S "
+
+logger = logging.getLogger("AFexcuses Rotating Log")
+logger.setLevel(logging.INFO)
+    
+# add a rotating handler
+handler = RotatingFileHandler("AFexcuses.log", maxBytes=2048000, backupCount=25)
+logger.addHandler(handler)
+
+def print_and_log(text, error=False):
+    print(text)
+    if error:
+        logger.error(time.strftime(LOG_TIME_FORMAT) + text)
+    else:
+        logger.info(time.strftime(LOG_TIME_FORMAT) + text)
+
+print_and_log("Starting script")
 
 #Try to login or sleep/wait until logged in, or exit if user/pass wrong
 NotLoggedIn = True
@@ -27,30 +44,26 @@ while NotLoggedIn:
             client_secret=credsClientSecret.strip(),
             username=credsUserName.strip(),
             password=credsPassword.strip())
-        print("Logged in")
+        print_and_log("Logged in")
         NotLoggedIn = False
     except praw.errors.InvalidUserPass:
-        print("Wrong username or password")
-        logging.error(time.strftime("%Y/%m/%d %H:%M:%S ") + "Wrong username or password")
+        print_and_log("Wrong username or password", error=True)
         exit(1)
     except Exception as err:
-        print(str(err))
+        print_and_log(str(err), error=True)
         time.sleep(5)
 
 # vars
 globalCount = 0
 rAirForce = reddit.subreddit(subreddit)
 
-logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
-             "Starting processing loop for subreddit: " + subreddit)
+print_and_log("Starting processing loop for subreddit: " + subreddit)
 
 triggerWords = ['afexcuses!', 'afexcuse!']
 def checkForReplies(comment_list, rAirForceComments):
     for comment in comment_list:
         if rAirForceComments.id in comment.body:
-            logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
-                         "Already processed comment: " + permlink + ", skipping")
-            print("Comment already processed, skipping")
+            print_and_log("Already processed comment: " + permlink + ", skipping")
             return True
     return False
 
@@ -65,14 +78,12 @@ while True:
                 print("Post too old, continuing")
                 continue
 
-            print("\nComments processed since start of script: " + str(globalCount))
-            print("Processing comment: " + rAirForceComments.id)
+            print_and_log("\nComments processed since start of script: " + str(globalCount))
+            print_and_log("Processing comment: " + rAirForceComments.id)
 
             # prints a link to the comment.
-            permlink = "http://www.reddit.com" + rAirForceComments.permalink
-            print(permlink)
-            logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
-                         "Processing comment: " + permlink)
+            permlink = "http://www.reddit.com" + rAirForceComments.permalink            
+            print_and_log("Processing comment: " + permlink)
 
             # Check replies to make sure the bot hasn't responded yet
             rAirForceComments.refresh()
@@ -87,10 +98,7 @@ while True:
                 dalist = []
                 with open(excuseFile, 'r') as f:
                     dalist = f.read().splitlines()
-                print("Dropping an excuse on: " + str(rAirForceComments.author)
-                      + ". Comment ID: " + rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.")
-                logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") +
-                             "Dropping an excuse on: " + str(rAirForceComments.author) + ". Comment ID: " +
+                print_and_log("Dropping an excuse on: " + str(rAirForceComments.author) + ". Comment ID: " +
                              rAirForceComments.id + " with " + str(len(dalist)) + " excuses loaded.\n")
                 ExcuseReply = '^^You\'ve ^^spun ^^the ^^wheel ^^of ^^Air ^^Force ^^excuses, ' + \
                                '^^here\'s ^^your ^^prize:\n\n' \
@@ -104,11 +112,8 @@ while True:
 
     # what to do if Ctrl-C is pressed while script is running
     except KeyboardInterrupt:
-        print("Keyboard Interrupt experienced, cleaning up and exiting")
-        print("Exiting due to keyboard interrupt")
-        logging.info(time.strftime("%Y/%m/%d %H:%M:%S ") + "Exiting due to keyboard interrupt")
+        print_and_log("Exiting due to keyboard interrupt")
         exit(0)
     
     except Exception as err:
-        print("Exception: " + str(err.with_traceback()))
-        logging.error(time.strftime("%Y/%m/%d %H:%M:%S ") + "Unhandled exception: " + str(err.with_traceback()))
+        print_and_log("Exception: " + str(err.with_traceback()))
