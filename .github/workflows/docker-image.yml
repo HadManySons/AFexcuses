@@ -15,6 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      #working-directory: ./AFexcuses
-      #run: docker build . --file Dockerfile --tag afexcuses:$(date +%s)
-      run: pwd; ls -alh
+      working-directory: ./AFExcuses
+      run: docker build . --file Dockerfile --tag afexcuses:$(date +%s)
