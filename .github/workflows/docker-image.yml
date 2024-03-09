@@ -17,4 +17,4 @@ jobs:
     - name: Build the Docker image
       #working-directory: ./AFexcuses
       #run: docker build . --file Dockerfile --tag afexcuses:$(date +%s)
-      run: pwd
+      run: pwd; ls -alh
